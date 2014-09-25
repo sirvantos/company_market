@@ -43,6 +43,17 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
+staging:
+  adapter: postgresql
+  encoding: unicode
+  database: d7q9dqtl7t19vu
+  pool: 5
+  username: wzrpzpxhyxafwg
+  password: hCCxyfsW598X0Taio0EKMCdYFk
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
 test:
   adapter: postgresql
   encoding: unicode
@@ -50,3 +61,5 @@ test:
   pool: 5
   username: vladimir
   password: vladimir
+
+
