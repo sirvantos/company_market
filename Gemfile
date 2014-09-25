@@ -36,7 +36,7 @@ gem "rack-timeout"
 # #queue
 # gem 'resque', "~> 1.22.0"
 #multiprocessing queue
-gem 'resque-pool'
+#gem 'resque-pool'
 
 #strip model attributes
 gem "strip_attributes"
