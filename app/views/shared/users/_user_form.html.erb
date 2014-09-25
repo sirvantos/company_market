@@ -1,0 +1,21 @@
+<%
+   @user.authorization ||= Authorization.new
+%>
+<%= form_for(@user) do |f|%>
+
+	<%= render 'shared/error_messages', object: f.object %>
+
+	<%=f.label :email%>
+	<%=f.email_field :email%>
+
+    <%= f.fields_for :authorization do |ff| %>
+        <%=ff.label :password%>
+        <%=ff.password_field :password%>
+
+        <%=ff.label :password_confirmation, "Confirmation"%>
+        <%=ff.password_field :password_confirmation%>
+    <% end %>
+
+	<%= f.submit @user.id.blank? ? "Create my account" : "Save changes", class: "btn btn-large btn-primary" %>
+
+<% end %>
