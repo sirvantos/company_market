@@ -1,5 +1,4 @@
 # config/unicorn.rb
-Rails.log.info('Disconnected from Redis')
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 
 timeout 15
