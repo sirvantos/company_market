@@ -34,7 +34,7 @@ gem 'secure_headers'
 gem "rack-timeout"
 
 # #queue
-gem 'resque', "~> 1.22.0"
+gem 'resque', "~> 1.25.2"
 #multiprocessing queue
 #gem 'resque-pool'
 

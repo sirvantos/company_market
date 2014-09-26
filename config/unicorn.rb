@@ -1,4 +1,5 @@
 # config/unicorn.rb
+Rails.log.info('Disconnected from Redis')
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 
 timeout 15
@@ -20,7 +21,7 @@ before_fork do |server, worker|
   # If you are using Redis but not Resque, change this
   if defined?(Resque)
     # USE HIS LINE ONLY FOR SINGLE DYNO HEROKU CONFIGURATION
-    @resque_pid ||= spawn("bundle exec rake " + "resque:work QUEUES=scrape,geocode,distance,mailer")
+    @resque_pid ||= spawn("bundle exec rake resque:work")
     Resque.redis.quit
     Rails.logger.info('Disconnected from Redis')
   end
