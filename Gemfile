@@ -47,6 +47,7 @@ group :doc do
 end
 
 group :development do
+  #run unicorn server in development mode
   gem "unicorn-rails"
   gem 'guard-rspec', '2.5.0'
   gem 'rspec-rails', '2.13.1'
@@ -71,6 +72,7 @@ group :test do
 end
 
 group :production do
+  #run unicorn server in production mode
   gem 'unicorn'
   gem 'rails_12factor'
 end
