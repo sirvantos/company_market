@@ -41,14 +41,13 @@ gem 'resque', "~> 1.25.2"
 #strip model attributes
 gem "strip_attributes"
 
-gem 'unicorn'
-
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
 group :development do
+  gem "unicorn-rails"
   gem 'guard-rspec', '2.5.0'
   gem 'rspec-rails', '2.13.1'
   gem 'spork-rails', '4.0.0'
@@ -72,6 +71,7 @@ group :test do
 end
 
 group :production do
+  gem 'unicorn'
   gem 'rails_12factor'
 end
 
