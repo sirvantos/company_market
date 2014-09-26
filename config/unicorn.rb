@@ -5,6 +5,8 @@ timeout 15
 
 preload_app true
 
+@resque_pid = nil
+
 before_fork do |server, worker|
   Signal.trap 'TERM' do
     puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
@@ -17,6 +19,8 @@ before_fork do |server, worker|
 
   # If you are using Redis but not Resque, change this
   if defined?(Resque)
+    # USE HIS LINE ONLY FOR SINGLE DYNO HEROKU CONFIGURATION
+    @resque_pid ||= spawn("bundle exec rake " + "resque:work QUEUES=scrape,geocode,distance,mailer")
     Resque.redis.quit
     Rails.logger.info('Disconnected from Redis')
   end
@@ -38,7 +42,7 @@ after_fork do |server, worker|
 
   # If you are using Redis but not Resque, change this
   if defined?(Resque)
-    Resque.redis = $redis
+    Resque.redis = ENV["REDISCLOUD_URL"]
     Rails.logger.info('Connected to Redis')
   end
 end
