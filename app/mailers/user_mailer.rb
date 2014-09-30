@@ -3,6 +3,6 @@ class UserMailer < BaseMailer
 
   def account_confirmation(auth)
     @auth = auth
-    mail(to: @auth.user.email, subject: 'Welcome to My Awesome Site', from: "webmaster@example.com")
+    mail(to: @auth.user.email, subject: 'Welcome to My Awesome Site')
   end
 end
