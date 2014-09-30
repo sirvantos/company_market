@@ -1,0 +1,5 @@
+Hi <%=@auth.user.email%>
+
+You have rigestered on the resource, to cofirm it please go by the link
+
+<%=hash_authorization_url(@auth, @auth.confirmation_hash)%>

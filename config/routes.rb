@@ -3,10 +3,16 @@ CompanyMarket::Application.routes.draw do
 
   match '/signup',		to: 'users#new',        via: 'get'
   match '/signin',		to: 'sessions#new',     via: 'get'
+  match '/signin',		to: 'sessions#create',  via: 'post'
   match '/signout',		to: 'sessions#destroy', via: 'delete'
 
   resources :sessions, only: [:new, :create, :destroy]
-  resources :users
+  resources :users, except: [:destroy]
+  resources :authorization, only:[:confirm] do
+    member do
+      get 'confirm/:hash', :action => 'confirm', as: :hash, constraints: { hash: /[a-z0-9]{32}/ }
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

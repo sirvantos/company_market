@@ -47,6 +47,8 @@ group :doc do
 end
 
 group :development do
+  #mail debug
+  gem 'mailcatcher'
   #run unicorn server in development mode
   gem "unicorn-rails"
   gem 'guard-rspec', '2.5.0'

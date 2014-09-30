@@ -39,7 +39,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email].downcase)
     if(user)
       provider = user.find_application_provider
-      if provider && provider.authenticate(params[:password])
+      if provider && provider.confirmed? && provider.authenticate(params[:password])
         sign_in user
         redirect_back_or(user) and return true
       end

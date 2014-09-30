@@ -12,14 +12,8 @@ class Authorization < ActiveRecord::Base
   scope :with_valid_token, ->(provider) { where("(expires_at is null or expires_at > NOW()) AND provider = ?", provider) }
   scope :for_user, ->(user) { where("user_id = ?", user) }
 
-  before_save do
-   if provider.blank?
-     self.provider = 'application'
-   end
-   if uid.blank?
-     self.uid = user.id
-   end
-  end
+  before_create :create_base_state
+  after_create :send_mail_confirmation
 
   def self.find_or_create(auth_hash, user)
     unless auth = find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
@@ -38,5 +32,36 @@ class Authorization < ActiveRecord::Base
     end
 
     auth
+  end
+
+  def confirmed?
+    return true unless self.provider == 'application'
+
+    self.confirmation_hash.nil?
+  end
+
+  private
+
+  def create_base_state
+    unless uid
+      self.uid = user.id
+    end
+
+    unless provider
+      self.provider = 'application'
+      create_confirmation_hash
+    end
+  end
+
+  def create_confirmation_hash
+    self.confirmation_hash = generate_md5_hash
+  end
+
+  def generate_md5_hash
+    Digest::MD5.hexdigest(SecureRandom.urlsafe_base64.to_s)
+  end
+
+  def send_mail_confirmation
+    Resque.enqueue(MailWorker, for: 'account_confirmation', auth_id: self.id)
   end
 end
