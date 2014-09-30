@@ -74,8 +74,11 @@ group :test do
 end
 
 group :production do
-  #run unicorn server in production mode
+  # heroku smtp server
+  gem 'postmark-rails'
+  # run unicorn server in production mode
   gem 'unicorn'
+  # assests heroku deployer
   gem 'rails_12factor'
 end
 
