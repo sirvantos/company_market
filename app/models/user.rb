@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   validates :email,
             length: { maximum: 128, message: "%{count} characters is the maximum allowed" },
-            format: {with: VALID_EMAIL_REGEX},
+            email: true,
             uniqueness: { case_sensitive: false }
 
   strip_attributes

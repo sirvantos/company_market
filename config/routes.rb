@@ -5,12 +5,16 @@ CompanyMarket::Application.routes.draw do
   match '/signin',		to: 'sessions#new',     via: 'get'
   match '/signin',		to: 'sessions#create',  via: 'post'
   match '/signout',		to: 'sessions#destroy', via: 'delete'
+  match '/restore_password_email',	to: 'authorization#restore_password_email',    	via: [:post, :get]
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :users, except: [:destroy]
   resources :authorization, only:[:confirm] do
     member do
       get 'confirm/:hash', :action => 'confirm', as: :hash, constraints: { hash: /[a-z0-9]{32}/ }
+      match 'password/:hash', :action => 'restore_password',
+            as: 'restore_password',
+            constraints: { hash: /[a-z0-9]{32}/ }, via: [:patch, :get]
     end
   end
 

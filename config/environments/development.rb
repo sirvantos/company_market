@@ -6,6 +6,11 @@ CompanyMarket::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  # set default timezone
+  # config.active_record.default_timezone = ENV['TIME_ZONE'] || 'Moscow'
+  config.time_zone =  ENV['TIME_ZONE'] || 'Moscow'
+  config.active_record.default_timezone = ENV['TIME_ZONE'] || 'Moscow'
+
   # Do not eager load code on boot.
   config.eager_load = false
 
