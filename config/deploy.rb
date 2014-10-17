@@ -20,6 +20,7 @@ set :ssh_options, { :forward_agent => true, :port => 4321 }
 
 set :keep_releases, 5
 
+set :workers, { "mail" => 1 }
 
 # Default value for :scm is :git
 # set :scm, :git

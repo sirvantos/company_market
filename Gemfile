@@ -57,6 +57,7 @@ group :development do
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-rvm',   '~> 0.1', require: false
+  gem "capistrano-resque", "~> 0.2.1", require: false
 
   #mail debug
   gem 'mailcatcher'

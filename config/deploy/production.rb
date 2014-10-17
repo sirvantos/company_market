@@ -17,6 +17,12 @@ set :default_env, {
 	'RAKE_ENV' => 'production'
 }
 
+# Specify the server that Resque will be deployed on. If you are using Cap v3
+# and have multiple stages with different Resque requirements for each, then
+# these __must__ be set inside of the applicable config/deploy/... stage files
+# instead of config/deploy.rb:
+role :resque_worker, "www.company_market.com"
+
 # server "192.168.56.2", :app, :web, :db, :primary => true
 
 # role :app, %w{deploy@example.com}
