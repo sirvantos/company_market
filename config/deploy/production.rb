@@ -21,7 +21,7 @@ set :default_env, {
 # and have multiple stages with different Resque requirements for each, then
 # these __must__ be set inside of the applicable config/deploy/... stage files
 # instead of config/deploy.rb:
-role :resque_worker, "www.company_market.com"
+role :resque_worker, "192.168.56.2"
 
 # server "192.168.56.2", :app, :web, :db, :primary => true
 

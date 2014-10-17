@@ -22,6 +22,8 @@ set :keep_releases, 5
 
 set :workers, { "mail" => 1 }
 
+set :resque_environment_task, true
+
 # Default value for :scm is :git
 # set :scm, :git
 
@@ -58,6 +60,7 @@ namespace :deploy do
   end
 
   after :publishing, :restart
+  after "deploy:restart", "resque:restart"
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
