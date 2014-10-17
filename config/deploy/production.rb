@@ -7,6 +7,15 @@
 set :rails_env, "production"
 set :branch, 'master'
 set :deploy_to, '/home/ruby_admin/www/company_market.com'
+set :default_env, {
+	'SECRET_TOKEN' => 'mysuperhellotesttesthello',
+	'RAILS_ENV' => 'production',
+	'MAIL_FROM' => 'from@company_market.com',
+	'TIME_ZONE' => 'Berlin',
+	'RESQUE_LOG_ON' => 1,
+	'REDISCLOUD_URL' => 'redis://127.0.0.1:6379',
+	'RAKE_ENV' => 'production'
+}
 
 # server "192.168.56.2", :app, :web, :db, :primary => true
 
