@@ -49,6 +49,12 @@ group :doc do
 end
 
 group :development do
+  gem 'capistrano', '~> 3.2.0'
+  # cap tasks to manage puma application server
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm',   '~> 0.1', require: false
+
   #mail debug
   gem 'mailcatcher'
   #run unicorn server in development mode

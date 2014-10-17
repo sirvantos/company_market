@@ -2,8 +2,10 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 
 timeout 15
-
 preload_app true
+
+# Spawn unicorn master worker for user apps (group: apps)
+user 'apps', 'apps'
 
 @resque_pid = nil
 
