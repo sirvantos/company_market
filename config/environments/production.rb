@@ -57,6 +57,11 @@ CompanyMarket::Application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
+  # set default timezone
+  # config.active_record.default_timezone = ENV['TIME_ZONE'] || 'Moscow'
+  config.time_zone =  ENV['TIME_ZONE'] || 'Berlin'
+  config.active_record.default_timezone = ENV['TIME_ZONE'] || 'Berlin'
+
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   # config.assets.precompile += %w( search.js )
@@ -64,6 +69,8 @@ CompanyMarket::Application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+  #mailer settings
+  config.action_mailer.default_url_options = {:host => ENV['DEFAULT_HOST'] || "company-market-staging.herokuapp.com"}
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
@@ -77,4 +84,8 @@ CompanyMarket::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.action_mailer.delivery_method   = :postmark
+  config.action_mailer.postmark_settings = { :api_key => ENV['POSTMARK_API_KEY'] }
+  config.action_mailer.default_url_options = {:host => ENV['DEFAULT_HOST'] || "localhost:3000"}
 end

@@ -1,3 +1,5 @@
+ruby '2.0.0'
+
 source 'https://rubygems.org'
 
 # Use ActiveModel has_secure_password
@@ -34,14 +36,15 @@ gem 'secure_headers'
 gem "rack-timeout"
 
 # #queue
-# gem 'resque', "~> 1.22.0"
+gem 'resque', "~> 1.25.2"
 #multiprocessing queue
 #gem 'resque-pool'
 
 #strip model attributes
 gem "strip_attributes"
 
-gem 'unicorn'
+# decorator facilities
+gem 'draper', '~> 1.3'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -49,6 +52,16 @@ group :doc do
 end
 
 group :development do
+  gem 'capistrano', '~> 3.2.0'
+  # cap tasks to manage puma application server
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm',   '~> 0.1', require: false
+
+  #mail debug
+  gem 'mailcatcher'
+  #run unicorn server in development mode
+  gem "unicorn-rails"
   gem 'guard-rspec', '2.5.0'
   gem 'rspec-rails', '2.13.1'
   gem 'spork-rails', '4.0.0'
@@ -72,6 +85,11 @@ group :test do
 end
 
 group :production do
+  # heroku smtp server
+  gem 'postmark-rails'
+  # run unicorn server in production mode
+  gem 'unicorn'
+  # assests heroku deployer
   gem 'rails_12factor'
 end
 

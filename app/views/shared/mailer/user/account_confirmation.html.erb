@@ -1,0 +1,7 @@
+<h3>Hi <%=@auth.user.email%></h3>
+
+<p>You have rigestered on the resource, to cofirm it please go by the link</p>
+
+<p><a href="<%=hash_authorization_url(@auth, @auth.confirmation_hash)%>">Activate</a></p>
+
+<p>Best regards</p>

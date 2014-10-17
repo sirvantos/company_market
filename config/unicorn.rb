@@ -2,8 +2,12 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 
 timeout 15
-
 preload_app true
+
+# Spawn unicorn master worker for user apps (group: apps)
+user 'apps', 'apps'
+
+@resque_pid = nil
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
@@ -17,6 +21,8 @@ before_fork do |server, worker|
 
   # If you are using Redis but not Resque, change this
   if defined?(Resque)
+    # USE HIS LINE ONLY FOR SINGLE DYNO HEROKU CONFIGURATION
+    @resque_pid ||= spawn("bundle exec rake resque:work")
     Resque.redis.quit
     Rails.logger.info('Disconnected from Redis')
   end
@@ -38,7 +44,7 @@ after_fork do |server, worker|
 
   # If you are using Redis but not Resque, change this
   if defined?(Resque)
-    Resque.redis = $redis
+    Resque.redis = ENV["REDISCLOUD_URL"]
     Rails.logger.info('Connected to Redis')
   end
 end

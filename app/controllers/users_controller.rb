@@ -28,18 +28,6 @@ class UsersController < ApplicationController
     else
       render action: 'new'
     end
-
-    # User.transaction do
-    #   if @user.save
-    #     if @user.application_authorization.save
-    #       redirect_to @user, notice: 'User was successfully created.' and return
-    #     else
-    #       raise ActiveRecord::Rollback
-    #     end
-    #   end
-    # end
-
-    # render action: 'new'
   end
 
   # PATCH/PUT /users/1

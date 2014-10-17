@@ -57,9 +57,15 @@ staging:
 test:
   adapter: postgresql
   encoding: unicode
-  database: facebook_activity_test
+  database: company_market_test
   pool: 5
   username: vladimir
   password: vladimir
 
-
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: company_market
+  pool: 5
+  username: company_market
+  password: company_market
