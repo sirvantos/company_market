@@ -85,7 +85,9 @@ CompanyMarket::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.action_mailer.delivery_method   = :postmark
-  config.action_mailer.postmark_settings = { :api_key => ENV['POSTMARK_API_KEY'] }
+  # postmark module
+  # config.action_mailer.delivery_method   = :postmark
+  # config.action_mailer.postmark_settings = { :api_key => ENV['POSTMARK_API_KEY'] }
+
   config.action_mailer.default_url_options = {:host => ENV['DEFAULT_HOST'] || "localhost:3000"}
 end
