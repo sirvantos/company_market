@@ -8,6 +8,7 @@ set :rails_env, "production"
 set :branch, 'master'
 set :deploy_to, '/home/ruby_admin/www/company_market.com'
 set :default_env, {
+	'DEFAULT_HOST' => 'company_market.com',
 	'SECRET_TOKEN' => 'mysuperhellotesttesthello',
 	'RAILS_ENV' => 'production',
 	'MAIL_FROM' => 'from@company_market.com',
