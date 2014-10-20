@@ -62,7 +62,7 @@ group :development do
   #mail debug
   gem 'mailcatcher'
   #run unicorn server in development mode
-  gem "unicorn-rails"
+  # gem "unicorn-rails"
   gem 'guard-rspec', '2.5.0'
   gem 'rspec-rails', '2.13.1'
   gem 'spork-rails', '4.0.0'
@@ -70,7 +70,7 @@ group :development do
   gem 'childprocess', '0.5.3'
   #datapopulation
   # heroku deployer
-  gem 'heroku_san'
+  # gem 'heroku_san'
 end
 
 group :test do
@@ -87,11 +87,11 @@ end
 
 group :production do
   # heroku smtp server
-  gem 'postmark-rails'
+  # gem 'postmark-rails'
   # run unicorn server in production mode
-  gem 'unicorn'
+  # gem 'unicorn'
   # assests heroku deployer
-  gem 'rails_12factor'
+  # gem 'rails_12factor'
 end
 
 # Use ActiveModel has_secure_password
