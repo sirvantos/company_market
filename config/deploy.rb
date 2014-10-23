@@ -34,7 +34,7 @@ set :resque_environment_task, true
 # set :log_level, :debug
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 # set :linked_files, %w{config/database.yml}
@@ -48,6 +48,39 @@ set :resque_environment_task, true
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+namespace :foreman do
+  desc "Export the Procfile to Ubuntu's upstart scripts"
+  task :export do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "cp /home/ruby_admin/www/company_market.com/shared/deploy/.env /home/ruby_admin/www/company_market.com/current"
+      # execute "source /home/ruby_admin/www/company_market.com/shared/deploy/wrapper"
+      execute "source /home/ruby_admin/www/company_market.com/shared/deploy/wrapper && cd /home/ruby_admin/www/company_market.com/current && foreman export upstart /home/ruby_admin/www/company_market.com/shared/deploy/init -a company_market -u ruby_admin"
+      execute "sudo mv -f /home/ruby_admin/www/company_market.com/shared/deploy/init/*.conf /etc/init"
+    end
+  end
+
+  desc "Start the application services"
+  task :start do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "sudo start company_market"
+    end
+  end
+
+  desc "Stop the application services"
+  task :stop do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "sudo stop company_market"
+    end
+  end
+
+  desc "Restart the application services"
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "sudo start company_market || sudo restart company_market"
+    end
+  end
+end
+
 namespace :deploy do
 
   desc 'Restart application'
@@ -60,7 +93,8 @@ namespace :deploy do
   end
 
   after :publishing, :restart
-  # after :restart, "resque:restart"
+  after :published, "foreman:export"
+  after :published, "foreman:restart"
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -70,37 +104,4 @@ namespace :deploy do
       # end
     end
   end
-
-  namespace :foreman do
-    desc "Export the Procfile to Ubuntu's upstart scripts"
-    task :export do
-      on roles(:app), in: :sequence, wait: 5 do
-        run "cd /home/ruby_admin/www/company_market.com/current && bash /home/ruby_admin/.rvm/environments/default && rvmsudo foreman export upstart /etc/init -a company_market -u ruby_admin -l /var/company_market/foreman.log"
-      end
-    end
-
-    desc "Start the application services"
-    task :start do
-      on roles(:app), in: :sequence, wait: 5 do
-        sudo "sudo start company_market"
-      end
-    end
-
-    desc "Stop the application services"
-    task :stop do
-      on roles(:app), in: :sequence, wait: 5 do
-        sudo "sudo stop company_market"
-      end
-    end
-
-    desc "Restart the application services"
-    task :restart do
-      on roles(:app), in: :sequence, wait: 5 do
-        run "sudo start company_market || sudo restart company_market"
-      end
-    end
-  end
-
-  after :restart, "foreman:export"
-  after :restart, "foreman:restart"
 end
