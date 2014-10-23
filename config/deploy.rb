@@ -60,7 +60,7 @@ namespace :deploy do
   end
 
   after :publishing, :restart
-  after :restart, "resque:restart"
+  # after :restart, "resque:restart"
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -73,26 +73,34 @@ namespace :deploy do
 
   namespace :foreman do
     desc "Export the Procfile to Ubuntu's upstart scripts"
-    task :export, :roles => :app do
-      run "cd /home/ruby_admin/www/company_market.com/current && rvmsudo foreman export upstart /etc/init -a company_market -u ruby_admin -l /var/company_market/foreman.log"
+    task :export do
+      on roles(:app), in: :sequence, wait: 5 do
+        run "cd /home/ruby_admin/www/company_market.com/current && bash /home/ruby_admin/.rvm/environments/default && rvmsudo foreman export upstart /etc/init -a company_market -u ruby_admin -l /var/company_market/foreman.log"
+      end
     end
 
     desc "Start the application services"
-    task :start, :roles => :app do
-      sudo "sudo start company_market"
+    task :start do
+      on roles(:app), in: :sequence, wait: 5 do
+        sudo "sudo start company_market"
+      end
     end
 
     desc "Stop the application services"
-    task :stop, :roles => :app do
-      sudo "sudo stop company_market"
+    task :stop do
+      on roles(:app), in: :sequence, wait: 5 do
+        sudo "sudo stop company_market"
+      end
     end
 
     desc "Restart the application services"
-    task :restart, :roles => :app do
-      run "sudo start company_market || sudo restart company_market"
+    task :restart do
+      on roles(:app), in: :sequence, wait: 5 do
+        run "sudo start company_market || sudo restart company_market"
+      end
     end
   end
 
-  after "deploy:update", "foreman:export"
-  after "deploy:update", "foreman:restart"
+  after :restart, "foreman:export"
+  after :restart, "foreman:restart"
 end
