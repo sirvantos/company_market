@@ -71,4 +71,28 @@ namespace :deploy do
     end
   end
 
+  namespace :foreman do
+    desc "Export the Procfile to Ubuntu's upstart scripts"
+    task :export, :roles => :app do
+      run "cd /home/ruby_admin/www/company_market.com/current && rvmsudo foreman export upstart /etc/init -a company_market -u ruby_admin -l /var/company_market/foreman.log"
+    end
+
+    desc "Start the application services"
+    task :start, :roles => :app do
+      sudo "sudo start company_market"
+    end
+
+    desc "Stop the application services"
+    task :stop, :roles => :app do
+      sudo "sudo stop company_market"
+    end
+
+    desc "Restart the application services"
+    task :restart, :roles => :app do
+      run "sudo start company_market || sudo restart company_market"
+    end
+  end
+
+  after "deploy:update", "foreman:export"
+  after "deploy:update", "foreman:restart"
 end
