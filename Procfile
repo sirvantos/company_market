@@ -1,1 +1,1 @@
-worker: bundle exec rake resque:work QUEUE="mail"
+worker: bundle exec rake resque:work QUEUE="mail,user"

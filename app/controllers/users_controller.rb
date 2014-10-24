@@ -23,8 +23,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if @user.save
-      redirect_to @user, notice: 'User was successfully created.' and return
+    if @user.valid?
+      Resque.enqueue(UserWorker, for: 'creation', user_params: user_params)
+      redirect_to root_path, notice: 'We have sent confirmation mail with instruction how to activate your account' and return
     else
       render action: 'new'
     end
