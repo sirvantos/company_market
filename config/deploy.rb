@@ -20,10 +20,6 @@ set :ssh_options, { :forward_agent => true, :port => 4321 }
 
 set :keep_releases, 5
 
-set :workers, { "mail" => 1 }
-
-set :resque_environment_task, true
-
 # Default value for :scm is :git
 # set :scm, :git
 
