@@ -37,9 +37,6 @@ role :resque_worker, "192.168.56.2"
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-# server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
-server "192.168.56.2", user: 'ruby_admin', roles: %w{app web db}
-
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a

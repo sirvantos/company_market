@@ -46,10 +46,10 @@ development:
 staging:
   adapter: postgresql
   encoding: unicode
-  database: d7q9dqtl7t19vu
+  database: company_market_staging
   pool: 5
-  username: wzrpzpxhyxafwg
-  password: hCCxyfsW598X0Taio0EKMCdYFk
+  username: company_market
+  password: company_market
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
