@@ -4,9 +4,14 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
+# role :app, %w{deploy@example.com}
+# role :web, %w{deploy@example.com}
+# role :db,  %w{deploy@example.com}
+
+set :application, 'company_market'
 set :rails_env, "production"
 set :branch, 'master'
-set :deploy_to, '/home/ruby_admin/www/company_market.com'
+set :deploy_to, '/home/ruby_admin/www/company_market.com/'
 set :default_env, {
 	'DEFAULT_HOST' => 'company_market.com',
 	'SECRET_TOKEN' => 'mysuperhellotesttesthello',
@@ -17,12 +22,6 @@ set :default_env, {
 	'REDISCLOUD_URL' => 'redis://127.0.0.1:6379',
 	'RAKE_ENV' => 'production'
 }
-
-# Specify the server that Resque will be deployed on. If you are using Cap v3
-# and have multiple stages with different Resque requirements for each, then
-# these __must__ be set inside of the applicable config/deploy/... stage files
-# instead of config/deploy.rb:
-role :resque_worker, "192.168.56.2"
 
 # server "192.168.56.2", :app, :web, :db, :primary => true
 

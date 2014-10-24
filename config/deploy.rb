@@ -3,7 +3,6 @@ SSHKit.config.command_map[:rake] = "bundle exec rake"
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'company_market'
 set :repo_url, 'https://github.com/sirvantos/company_market.git'
 
 # We are only going to use a single stage: production
@@ -51,31 +50,31 @@ namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "cp /home/ruby_admin/www/company_market.com/shared/deploy/.env /home/ruby_admin/www/company_market.com/current"
+      execute "cp " + fetch(:deploy_to) + "/shared/deploy/.env " + fetch(:deploy_to) + "/current"
       # execute "source /home/ruby_admin/www/company_market.com/shared/deploy/wrapper"
-      execute "source /home/ruby_admin/www/company_market.com/shared/deploy/wrapper && cd /home/ruby_admin/www/company_market.com/current && foreman export upstart /home/ruby_admin/www/company_market.com/shared/deploy/init -a company_market -u ruby_admin"
-      execute "sudo mv -f /home/ruby_admin/www/company_market.com/shared/deploy/init/*.conf /etc/init"
+      execute "source " + fetch(:deploy_to) + "shared/deploy/wrapper && cd " + fetch(:deploy_to) + "current && foreman export upstart " + fetch(:deploy_to) + "/shared/deploy/init -a " + fetch(:application) + " -u ruby_admin"
+      execute "sudo mv -f " + fetch(:deploy_to) + "/shared/deploy/init/*.conf /etc/init"
     end
   end
 
   desc "Start the application services"
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo start company_market"
+      execute "sudo start "  +  fetch(:application)
     end
   end
 
   desc "Stop the application services"
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo stop company_market"
+      execute "sudo stop " + fetch(:application)
     end
   end
 
   desc "Restart the application services"
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo start company_market || sudo restart company_market"
+      execute "sudo start "  +  fetch(:application) + " || sudo restart "  +  fetch(:application)
     end
   end
 end

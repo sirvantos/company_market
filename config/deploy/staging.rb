@@ -8,9 +8,10 @@
 # role :web, %w{deploy@example.com}
 # role :db,  %w{deploy@example.com}
 
+set :application, 'staging_company_market'
 set :rails_env, "staging"
 set :branch, 'develop'
-set :deploy_to, '/home/ruby_admin/www/staging.company_market.com'
+set :deploy_to, '/home/ruby_admin/www/staging.company_market.com/'
 set :default_env, {
     'DEFAULT_HOST' => 'staging.company_market.com',
     'SECRET_TOKEN' => 'mysuperhellotesttesthello',
