@@ -7,7 +7,7 @@ set :application, 'company_market'
 set :repo_url, 'https://github.com/sirvantos/company_market.git'
 
 # We are only going to use a single stage: production
-set :stages, ["production"]
+set :stages, ["production", "staging"]
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -19,6 +19,9 @@ set :deploy_via, :copy
 set :ssh_options, { :forward_agent => true, :port => 4321 }
 
 set :keep_releases, 5
+
+# server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server "192.168.56.2", user: 'ruby_admin', roles: %w{app web db}
 
 # Default value for :scm is :git
 # set :scm, :git
