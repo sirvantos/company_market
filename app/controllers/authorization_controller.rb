@@ -6,11 +6,10 @@ class AuthorizationController < ApplicationController
     if auth
       auth.update_attribute(:confirmation_hash, nil)
       sign_in auth.user
-      flash[:success] = "Hello, we have activated your account!"
-      redirect_to root_path
+
+      redirect_to root_path, :flash => { :success => "Hello, we have activated your account!" }
     else
-      flash[:danger] = "Sorry, wrong confrimation hash!"
-      redirect_to root_path
+      redirect_to root_path, danger: "Sorry, wrong confirmation hash!"
     end
   end
 
@@ -19,8 +18,7 @@ class AuthorizationController < ApplicationController
       if @auth.update_attributes(restore_password_params)
         @auth.update_columns(restore_password_hash: nil, restore_password_hash_created: nil)
 
-        flash[:success] = "Your password has been changed"
-        redirect_to root_path
+        redirect_to root_path, :flash => { :success => "Your password has been changed" }
       end
     end
   end
@@ -34,8 +32,8 @@ class AuthorizationController < ApplicationController
           app_provider = user.find_application_provider
           unless app_provider.nil? || !app_provider.confirmed?
             Resque.enqueue(MailWorker, for: 'password_restore', auth_id: app_provider.id)
-            flash[:success] = "We have sent restore password instruction to your mail!"
-            redirect_to root_path
+
+            redirect_to root_path, :flash => { :success => "We have sent restore password instruction to your mail!" }
             return
           end
         end
@@ -65,7 +63,6 @@ class AuthorizationController < ApplicationController
       return unless @auth.nil?
     end
 
-    flash[:danger] = "Wrong restore request format"
-    redirect_to root_path
+    redirect_to root_path, danger: "Wrong restore request format"
   end
 end

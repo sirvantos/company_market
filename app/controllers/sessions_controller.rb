@@ -31,8 +31,7 @@ class SessionsController < ApplicationController
       sign_in auth.user
     end
 
-    flash[:success] = "Welcome " + auth.user.name + " to the facebook activity"
-    redirect_to back_url
+    redirect_to back_url, :flash => { :success => "Welcome " + auth.user.name + " to the facebook activity" }
   end
 
   def local_strategy
